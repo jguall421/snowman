@@ -1,3 +1,6 @@
+
+
+
 SNOWMAN_MIN_WORD_LENGTH = 5
 SNOWMAN_MAX_WORD_LENGTH = 8
 SNOWMAN_MAX_WRONG_GUESSES = 7
@@ -14,12 +17,33 @@ SNOWMAN_GRAPHIC = [
 
 
 def snowman(snowman_word):
-    """Complete the snowman function
-    replace "pass" below with your own code
-    It should print 'Congratulations, you win!'
-    If the player wins and, 
-    'Sorry, you lose! The word was {snowman_word}' if the player loses
-    """
+
+    correct_letter_guess_statuses = build_letter_status_dict(snowman_word)
+    wrong_guesses_list = []
+
+    while len(wrong_guesses_list) < SNOWMAN_MAX_WRONG_GUESSES:
+        print_word_progress_string(snowman_word, correct_letter_guess_statuses)
+        print("Wrong guesses so far:", wrong_guesses_list)
+        print_snowman_graphic(len(wrong_guesses_list))
+
+        user_guess = get_letter_from_user(correct_letter_guess_statuses, wrong_guesses_list)
+
+        if user_guess in correct_letter_guess_statuses:
+            correct_letter_guess_statuses[user_guess] = True
+            print(f"Good Job! '{user_guess}' is in the word. \n ")
+
+        else: 
+            wrong_guesses_list.append(user_guess)
+            print(f"Sorry, ' {user_guess}' is not in the words. \n")
+
+        if is_word_guessed(snowman_word,correct_letter_guess_statuses):
+            print_word_progress_string(snowman_word, correct_letter_guess_statuses)
+            print("Congratsm you win!")
+            return
+    print_snowman_graphic(len(wrong_guesses_list))
+    print(f"Sorry, you lose! The word was {snowman_word}")
+        
+
     pass
 
 
